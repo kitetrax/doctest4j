@@ -7,6 +7,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>doctest4j-maven-plugin</module>
+    <module>doctest4j-example</module>
   </modules>
   
   <properties>
