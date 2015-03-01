@@ -2,25 +2,26 @@ package net.kitetrax.dev.doctest4j.core;
 
 import org.junit.runners.model.FrameworkMethod;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ParameterResolver {
 
-  private Class<?> classUnderTest;
+  private ParameterParser parameterParser;
 
-  public ParameterResolver(Class<?> classUnderTest) {
-    this.classUnderTest = classUnderTest;
+  public ParameterResolver(Class<?> classUnderTest) throws IOException {
+    parameterParser = new ParameterParser(classUnderTest.getName().replace('.', '/') + ".dt4j");
   }
 
-  public String[][] getParameters(FrameworkMethod method) {
+  public Object[][] getParameters(FrameworkMethod method) {
     List<Parameter> annotations = getParameterAnnotations(method);
-    if (annotations.size() == 2) {
-      return new String[][] {{"summand1", "summand2"}};
-    } else {
-      return new String[][] {{"summand1"}};
+    Object[] parameterRow = new Object[annotations.size()];
+    for (int i = 0; i < annotations.size(); i++) {
+      parameterRow[i] = parameterParser.getValue(annotations.get(i));
     }
+    return new Object[][] {parameterRow};
   }
 
   private List<Parameter> getParameterAnnotations(FrameworkMethod method) {

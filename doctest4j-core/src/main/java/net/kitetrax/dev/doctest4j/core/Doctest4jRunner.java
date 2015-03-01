@@ -45,28 +45,28 @@ public class Doctest4jRunner extends BlockJUnit4ClassRunner {
   }
 
   protected Description describeDoctest4jChildren(FrameworkMethod method) {
-    String[][] parameters = parameterResolver.getParameters(method);
+    Object[][] parameters = parameterResolver.getParameters(method);
 
     Description description =
         Description.createSuiteDescription(method.getName(), method.getAnnotations());
 
-    for (String[] p : parameters) {
+    for (Object[] p : parameters) {
       description.addChild(describeDoctest4jChild(method, p));
     }
 
     return description;
   }
 
-  protected Description describeDoctest4jChild(FrameworkMethod method, String[] parameters) {
+  protected Description describeDoctest4jChild(FrameworkMethod method, Object[] parameters) {
     return Description.createTestDescription(getName(), getDoctest4jChildName(method, parameters),
         method.getAnnotations());
   }
 
-  protected String getDoctest4jChildName(FrameworkMethod method, String[] parameters) {
+  protected String getDoctest4jChildName(FrameworkMethod method, Object[] parameters) {
     NameTemplate annotation = method.getAnnotation(NameTemplate.class);
     String name = null == annotation ? method.getName() : annotation.value();
     for (int i = 0; i < parameters.length; i++) {
-      name = name.replace("{" + i + "}", parameters[i]);
+      name = name.replace("{" + i + "}", parameters[i].toString());
     }
     return name;
   }
@@ -85,14 +85,14 @@ public class Doctest4jRunner extends BlockJUnit4ClassRunner {
 
     List<Description> childDescriptions = description.getChildren();
 
-    String[][] parameters = parameterResolver.getParameters(method);
+    Object[][] parameters = parameterResolver.getParameters(method);
 
     for (int i = 0; i < parameters.length; i++) {
       runLeaf(doctest4jMethodBlock(method, parameters[i]), childDescriptions.get(i), notifier);
     }
   }
 
-  protected Statement doctest4jMethodBlock(FrameworkMethod method, String[] parameters) {
+  protected Statement doctest4jMethodBlock(FrameworkMethod method, Object[] parameters) {
     Object test;
     try {
       test = new ReflectiveCallable() {
@@ -113,7 +113,7 @@ public class Doctest4jRunner extends BlockJUnit4ClassRunner {
   }
 
   protected Statement doctest4jMethodInvoker(FrameworkMethod method, Object test,
-      String[] parameters) {
+      Object[] parameters) {
     return new InvokeMethod(method, test, parameters);
   }
 

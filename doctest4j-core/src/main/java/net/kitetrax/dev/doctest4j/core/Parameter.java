@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 @Repeatable(Parameters.class)
 public @interface Parameter {
 
-  String xpath();
+  String selector();
 
   ParameterType type();
 

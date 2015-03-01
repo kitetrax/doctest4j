@@ -22,7 +22,7 @@ public class CalculatorTest {
   }
 
   @Test
-  @Parameter(xpath = "//table/thead/th[0]", type = ParameterType.SINGLE_VALUE)
+  @Parameter(selector = "table th:eq(0)", type = ParameterType.SINGLE_VALUE)
   @NameTemplate("assertEquals({0}, summand1)")
   public void verifyHeader1(String value) {
     assertEquals(value, "summand1");
@@ -30,8 +30,8 @@ public class CalculatorTest {
 
 
   @Test
-  @Parameter(xpath = "//table/thead/th[0]", type = ParameterType.SINGLE_VALUE)
-  @Parameter(xpath = "//table/thead/th[0]", type = ParameterType.SINGLE_VALUE)
+  @Parameter(selector = "table th:eq(0)", type = ParameterType.SINGLE_VALUE)
+  @Parameter(selector = "table th:eq(1)", type = ParameterType.SINGLE_VALUE)
   @NameTemplate("assertNotEquals({0}, {1})")
   public void verifyHeader2(String value1, String value2) {
     assertNotEquals(value1, value2);
