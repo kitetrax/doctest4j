@@ -7,10 +7,12 @@
   <packaging>pom</packaging>
   <modules>
     <module>doctest4j-maven-plugin</module>
+    <module>doctest4j-core</module>
     <module>doctest4j-example</module>
   </modules>
   
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.version>3.2</maven.version>
     <jdk.min.version>1.8</jdk.min.version>
   </properties>
