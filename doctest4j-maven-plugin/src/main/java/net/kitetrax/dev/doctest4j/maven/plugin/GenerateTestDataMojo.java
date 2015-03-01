@@ -3,6 +3,7 @@ package net.kitetrax.dev.doctest4j.maven.plugin;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaMethod;
+import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -42,7 +43,10 @@ public class GenerateTestDataMojo extends AbstractMojo {
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     generatedResourcesDirectory.delete();
-    project.addTestCompileSourceRoot(generatedResourcesDirectory.getAbsolutePath());
+    Resource generatedResources = new Resource();
+    generatedResources.setDirectory(generatedResourcesDirectory.getAbsolutePath().substring(
+        project.getBasedir().getAbsolutePath().length()));
+    project.addTestResource(generatedResources);
 
     List<File> javaFiles;
     try {
