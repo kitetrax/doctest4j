@@ -1,2 +1,2 @@
 this file does not contain valid html as you can see here: <
-therefore it is not possible to get that value: <span id="param1">value1</span>
+however it is still possible to get that value: <span id="param1">value1</span>
