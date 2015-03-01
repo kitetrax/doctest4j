@@ -11,6 +11,15 @@
   <artifactId>doctest4j-example</artifactId>
   <packaging>jar</packaging>
   
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>doctest4j-core</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
   <build>
     <plugins>
       <plugin>
