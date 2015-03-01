@@ -1,20 +1,27 @@
 package net.kitetrax.dev.doctest4j.core;
 
 import org.junit.Test;
+import org.junit.internal.runners.model.ReflectiveCallable;
+import org.junit.internal.runners.statements.Fail;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
+import org.junit.runners.model.Statement;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Doctest4jRunner extends BlockJUnit4ClassRunner {
 
   private static final String TEST_CLASS_SUFFIX = "Test";
 
   private final ParameterResolver parameterResolver;
+
+  private final ConcurrentHashMap<FrameworkMethod, Description> descriptions =
+      new ConcurrentHashMap<>();
 
   public Doctest4jRunner(Class<?> testClass) throws Throwable {
     super(testClass);
@@ -23,11 +30,18 @@ public class Doctest4jRunner extends BlockJUnit4ClassRunner {
 
   @Override
   protected Description describeChild(FrameworkMethod method) {
-    if (isDoctest4jAnnotatedMethod(method)) {
-      return describeDoctest4jChildren(method);
-    } else {
-      return super.describeChild(method);
+    Description description = descriptions.get(method);
+
+    if (null == description) {
+      if (isDoctest4jAnnotatedMethod(method)) {
+        description = describeDoctest4jChildren(method);
+      } else {
+        description = super.describeChild(method);
+      }
+      descriptions.putIfAbsent(method, description);
     }
+
+    return description;
   }
 
   protected Description describeDoctest4jChildren(FrameworkMethod method) {
@@ -60,10 +74,47 @@ public class Doctest4jRunner extends BlockJUnit4ClassRunner {
   @Override
   protected void runChild(FrameworkMethod method, RunNotifier notifier) {
     if (isDoctest4jAnnotatedMethod(method)) {
-
+      runDoctest4jChildren(method, notifier);
     } else {
       super.runChild(method, notifier);
     }
+  }
+
+  protected void runDoctest4jChildren(FrameworkMethod method, RunNotifier notifier) {
+    Description description = describeChild(method);
+
+    List<Description> childDescriptions = description.getChildren();
+
+    String[][] parameters = parameterResolver.getParameters(method);
+
+    for (int i = 0; i < parameters.length; i++) {
+      runLeaf(doctest4jMethodBlock(method, parameters[i]), childDescriptions.get(i), notifier);
+    }
+  }
+
+  protected Statement doctest4jMethodBlock(FrameworkMethod method, String[] parameters) {
+    Object test;
+    try {
+      test = new ReflectiveCallable() {
+        @Override
+        protected Object runReflectiveCall() throws Throwable {
+          return createTest();
+        }
+      }.run();
+    } catch (Throwable e) {
+      return new Fail(e);
+    }
+
+    Statement statement = doctest4jMethodInvoker(method, test, parameters);
+    statement = possiblyExpectingExceptions(method, test, statement);
+    statement = withBefores(method, test, statement);
+    statement = withAfters(method, test, statement);
+    return statement;
+  }
+
+  protected Statement doctest4jMethodInvoker(FrameworkMethod method, Object test,
+      String[] parameters) {
+    return new InvokeMethod(method, test, parameters);
   }
 
   @Override
