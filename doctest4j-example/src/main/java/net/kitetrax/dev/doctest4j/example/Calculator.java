@@ -11,7 +11,7 @@ public class Calculator {
    * Examples:
    * 
    * <pre>
-   * <table>
+   * <table id="testdata">
    *   <thead>
    *    <tr><th>summand1</th><th>summand2</th><th>sum</th></tr>
    *   </thead>

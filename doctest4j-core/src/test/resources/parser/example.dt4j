@@ -1,3 +1,22 @@
 just some text
 and here comes the important first value: <span id="param1">value1</span>
 and of course also the <span id="param2">value2</span> is provided and selectable.
+
+also this file could contain a table:
+<table id="data">
+  <tr>
+  	<th>A</th>
+  	<th>B</th>
+  	<th>C</th>
+  </tr>
+  <tr>
+  	<td>123</td>
+  	<td>456</td>
+  	<td>789</td>
+  </tr>
+  <tr>
+  	<td>abc</td>
+  	<td>def</td>
+  	<td>geh</td>
+  </tr>
+</table>

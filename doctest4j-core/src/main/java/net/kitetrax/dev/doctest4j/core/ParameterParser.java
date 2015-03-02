@@ -26,13 +26,26 @@ public class ParameterParser {
       case SINGLE_VALUE:
         return getSingleValue(parameter);
       case TABLE:
-        break;
+        return getTableValue(parameter);
     }
     return null;
   }
 
   private Object getSingleValue(Parameter parameter) {
     return document.select(parameter.selector()).text();
+  }
+
+  private Table getTableValue(Parameter parameter) {
+    Table.Builder builder = Table.builder();
+    document.select(parameter.selector()).select("tr").forEach(tr -> {
+      Object[] values = tr.select("td").stream().map(td -> {
+        return td.text();
+      }).toArray();
+      if (values.length > 0) {
+        builder.withRow(values);
+      }
+    });
+    return builder.build();
   }
 
 }

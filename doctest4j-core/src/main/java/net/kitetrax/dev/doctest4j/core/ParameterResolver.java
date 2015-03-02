@@ -20,6 +20,10 @@ public class ParameterResolver {
     Object[] parameterRow = new Object[annotations.size()];
     for (int i = 0; i < annotations.size(); i++) {
       parameterRow[i] = parameterParser.getValue(annotations.get(i));
+      if (parameterRow[i] instanceof Table) {
+        // TODO: remove this hack - it should permute the tables and single values
+        return ((Table) parameterRow[i]).getRows();
+      }
     }
     return new Object[][] {parameterRow};
   }

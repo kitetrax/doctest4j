@@ -1,7 +1,6 @@
 package net.kitetrax.dev.doctest4j.example;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import net.kitetrax.dev.doctest4j.core.ClassUnderTest;
@@ -22,19 +21,23 @@ public class CalculatorTest {
   }
 
   @Test
-  @Parameter(selector = "table th:eq(0)", type = ParameterType.SINGLE_VALUE)
-  @NameTemplate("assertEquals({0}, summand1)")
-  public void verifyHeader1(String value) {
-    assertEquals(value, "summand1");
+  @Parameter(selector = "table tr:eq(0) td:eq(0)", type = ParameterType.SINGLE_VALUE)
+  @Parameter(selector = "table tr:eq(0) td:eq(1)", type = ParameterType.SINGLE_VALUE)
+  @Parameter(selector = "table tr:eq(0) td:eq(2)", type = ParameterType.SINGLE_VALUE)
+  @NameTemplate("{0} + {1} = {2}")
+  public void testAdditionWithSingleValues(String summand1, String summand2, String expected) {
+    Calculator calc = new Calculator();
+    Integer actual = calc.add(Integer.valueOf(summand1), Integer.valueOf(summand2));
+    assertEquals(Integer.valueOf(expected), actual);
   }
 
-
   @Test
-  @Parameter(selector = "table th:eq(0)", type = ParameterType.SINGLE_VALUE)
-  @Parameter(selector = "table th:eq(1)", type = ParameterType.SINGLE_VALUE)
-  @NameTemplate("assertNotEquals({0}, {1})")
-  public void verifyHeader2(String value1, String value2) {
-    assertNotEquals(value1, value2);
+  @Parameter(selector = "#testdata", type = ParameterType.TABLE)
+  @NameTemplate("{0} + {1} = {2}")
+  public void testAdditionWithTable(String summand1, String summand2, String expected) {
+    Calculator calc = new Calculator();
+    Integer actual = calc.add(Integer.valueOf(summand1), Integer.valueOf(summand2));
+    assertEquals(Integer.valueOf(expected), actual);
   }
 
 }
