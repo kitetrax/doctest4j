@@ -50,21 +50,24 @@ public class Doctest4jRunner extends BlockJUnit4ClassRunner {
     Description description =
         Description.createSuiteDescription(method.getName(), method.getAnnotations());
 
-    for (Object[] p : parameters) {
-      description.addChild(describeDoctest4jChild(method, p));
+    for (int i = 0; i < parameters.length; i++) {
+      description.addChild(describeDoctest4jChild(method, parameters[i], i + 1));
     }
 
     return description;
   }
 
-  protected Description describeDoctest4jChild(FrameworkMethod method, Object[] parameters) {
-    return Description.createTestDescription(getName(), getDoctest4jChildName(method, parameters),
-        method.getAnnotations());
+  protected Description describeDoctest4jChild(FrameworkMethod method, Object[] parameters,
+      int testNumber) {
+    return Description.createTestDescription(getName(),
+        getDoctest4jChildName(method, parameters, testNumber), method.getAnnotations());
   }
 
-  protected String getDoctest4jChildName(FrameworkMethod method, Object[] parameters) {
+  protected String getDoctest4jChildName(FrameworkMethod method, Object[] parameters, int testNumber) {
     NameTemplate annotation = method.getAnnotation(NameTemplate.class);
-    String name = null == annotation ? method.getName() : annotation.value();
+    String name =
+        method.getName() + " (" + testNumber + ")"
+            + (null == annotation ? "" : ": " + annotation.value());
     for (int i = 0; i < parameters.length; i++) {
       name = name.replace("{" + i + "}", parameters[i].toString());
     }
