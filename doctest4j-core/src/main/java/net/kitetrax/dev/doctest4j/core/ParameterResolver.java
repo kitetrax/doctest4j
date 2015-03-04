@@ -13,9 +13,12 @@ public class ParameterResolver {
 
   private final ParameterPermutator parameterPermutor;
 
+  private final ParameterConverter parameterConverter;
+
   public ParameterResolver(Class<?> classUnderTest) throws IOException {
     parameterParser = new ParameterParser(classUnderTest.getName().replace('.', '/') + ".dt4j");
     parameterPermutor = new ParameterPermutator();
+    parameterConverter = new ParameterConverter();
   }
 
   public Object[][] getParameters(FrameworkMethod method) {
@@ -24,7 +27,11 @@ public class ParameterResolver {
     for (int i = 0; i < annotations.size(); i++) {
       parameterRow[i] = parameterParser.getValue(annotations.get(i));
     }
-    return parameterPermutor.permute(parameterRow);
+    Object[][] params = parameterPermutor.permute(parameterRow);
+    for (int i = 0; i < params.length; i++) {
+      params[i] = parameterConverter.convert(method, params[i]);
+    }
+    return params;
   }
 
   private List<Parameter> getParameterAnnotations(FrameworkMethod method) {

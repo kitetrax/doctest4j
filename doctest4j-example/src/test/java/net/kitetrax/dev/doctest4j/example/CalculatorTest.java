@@ -25,18 +25,18 @@ public class CalculatorTest {
   @Parameter(selector = "#addexample tr:eq(0) td:eq(1)", type = ParameterType.SINGLE_VALUE)
   @Parameter(selector = "#addexample tr:eq(0) td:eq(2)", type = ParameterType.SINGLE_VALUE)
   @NameTemplate("{0} + {1} = {2}")
-  public void testAdditionWithSingleValues(String summand1, String summand2, String expected) {
+  public void testAdditionWithSingleValues(int summand1, int summand2, int expected) {
     Calculator calc = new Calculator();
-    Integer actual = calc.add(Integer.valueOf(summand1), Integer.valueOf(summand2));
-    assertEquals(Integer.valueOf(expected), actual);
+    int actual = calc.add(summand1, summand2);
+    assertEquals(expected, actual);
   }
 
   @Test
   @Parameter(selector = "#addexample", type = ParameterType.TABLE)
   @NameTemplate("{0} + {1} = {2}")
-  public void testAdditionWithTable(String summand1, String summand2, String expected) {
+  public void testAdditionWithTable(Integer summand1, Integer summand2, Integer expected) {
     Calculator calc = new Calculator();
-    Integer actual = calc.add(Integer.valueOf(summand1), Integer.valueOf(summand2));
+    Integer actual = calc.add(summand1, summand2);
     assertEquals(Integer.valueOf(expected), actual);
   }
 
