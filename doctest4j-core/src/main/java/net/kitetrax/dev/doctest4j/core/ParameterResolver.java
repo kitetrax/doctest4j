@@ -9,10 +9,13 @@ import java.util.List;
 
 public class ParameterResolver {
 
-  private ParameterParser parameterParser;
+  private final ParameterParser parameterParser;
+
+  private final ParameterPermutator parameterPermutor;
 
   public ParameterResolver(Class<?> classUnderTest) throws IOException {
     parameterParser = new ParameterParser(classUnderTest.getName().replace('.', '/') + ".dt4j");
+    parameterPermutor = new ParameterPermutator();
   }
 
   public Object[][] getParameters(FrameworkMethod method) {
@@ -20,12 +23,8 @@ public class ParameterResolver {
     Object[] parameterRow = new Object[annotations.size()];
     for (int i = 0; i < annotations.size(); i++) {
       parameterRow[i] = parameterParser.getValue(annotations.get(i));
-      if (parameterRow[i] instanceof Table) {
-        // TODO: remove this hack - it should permute the tables and single values
-        return ((Table) parameterRow[i]).getRows();
-      }
     }
-    return new Object[][] {parameterRow};
+    return parameterPermutor.permute(parameterRow);
   }
 
   private List<Parameter> getParameterAnnotations(FrameworkMethod method) {

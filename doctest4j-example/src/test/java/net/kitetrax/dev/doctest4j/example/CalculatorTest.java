@@ -40,4 +40,24 @@ public class CalculatorTest {
     assertEquals(Integer.valueOf(expected), actual);
   }
 
+  @Test
+  @Parameter(selector = "#multiplierA", type = ParameterType.SINGLE_VALUE)
+  @Parameter(selector = "#multiplyexampleA", type = ParameterType.TABLE)
+  @NameTemplate("{0} * {1} = {2}")
+  public void testMultiply2ByX(String multiplier, String multiplicant, String expected) {
+    Calculator calc = new Calculator();
+    Integer actual = calc.multiply(Integer.valueOf(multiplier), Integer.valueOf(multiplicant));
+    assertEquals(Integer.valueOf(expected), actual);
+  }
+
+  @Test
+  @Parameter(selector = "#multiplierB", type = ParameterType.SINGLE_VALUE)
+  @Parameter(selector = "#multiplyexampleB", type = ParameterType.TABLE)
+  @NameTemplate("{0} * {1} = {2}")
+  public void testMultiply5ByX(String multiplier, String multiplicant, String expected) {
+    Calculator calc = new Calculator();
+    Integer actual = calc.multiply(Integer.valueOf(multiplier), Integer.valueOf(multiplicant));
+    assertEquals(Integer.valueOf(expected), actual);
+  }
+
 }
