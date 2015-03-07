@@ -16,7 +16,7 @@ doctest4j.
 
 doctest4j comes along with the core library and a maven plugin which will provide access to the source code. Before you can set up the maven dependencies, you first have to add a new plugin group to mavens settings.xml.
 
-```
+```xml
   <pluginGroups>
     <pluginGroup>net.kitetrax.dev.doctest4j</pluginGroup>
   </pluginGroups>
@@ -89,7 +89,7 @@ public class Calculator {
   
 }
 ```
-Did you notice the `id="addexample"`? This will help us to reference the test data.
+Did you notice the `id="addexample"`? This will help doctest4j to reference the test data.
 
 #### 3. write your tests
 
