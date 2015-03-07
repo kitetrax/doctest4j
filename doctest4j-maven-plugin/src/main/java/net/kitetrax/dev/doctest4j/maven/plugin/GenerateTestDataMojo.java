@@ -117,10 +117,11 @@ public class GenerateTestDataMojo extends AbstractMojo {
   }
 
   private void generateDataFile(JavaClass javaClass, String aggregateComments) throws IOException {
-    getLog().debug("Generating test data for class " + javaClass.getFullyQualifiedName() + ".");
+    getLog().debug("Generating test data for class " + javaClass.getFullyQualifiedName());
     File file =
         new File(generatedResourcesDirectory, javaClass.getFullyQualifiedName().replace('.', '/')
             + ".dt4j");
+    getLog().debug("Write file with test data into " + file.getAbsolutePath());
     file.getParentFile().mkdirs();
     FileUtils.fileWrite(file, encoding, aggregateComments);
   }
