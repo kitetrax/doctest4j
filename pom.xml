@@ -30,4 +30,14 @@
       </plugin>
     </plugins>
   </build>
+  
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.org/stefanberkner/doctest4j</url>
+  </ciManagement>
+  
+  <scm>
+    <developerConnection>git@github.com:stefanberkner/doctest4j.git</developerConnection>
+    <url>https://github.com/stefanberkner/doctest4j</url>
+  </scm>
 </project>
