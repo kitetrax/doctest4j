@@ -10,6 +10,7 @@
 
   <artifactId>doctest4j-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
+  <name>${project.artifactId}</name>
 
   <dependencies>
     <dependency>

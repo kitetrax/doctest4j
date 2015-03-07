@@ -10,6 +10,7 @@
   
   <artifactId>doctest4j-example</artifactId>
   <packaging>jar</packaging>
+  <name>${project.artifactId}</name>
   
   <dependencies>
     <dependency>

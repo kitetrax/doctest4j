@@ -5,18 +5,21 @@
   <artifactId>doctest4j</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <name>${project.artifactId}</name>
+  
   <modules>
     <module>doctest4j-maven-plugin</module>
     <module>doctest4j-core</module>
     <module>doctest4j-example</module>
   </modules>
-  
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.version>3.2</maven.version>
     <jdk.min.version>1.8</jdk.min.version>
+    <github.global.server>github</github.global.server>
   </properties>
-  
+
   <build>
     <plugins>
       <plugin>
@@ -28,16 +31,32 @@
           <target>${jdk.min.version}</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.11</version>
+        <configuration>
+          <message>Creating site for ${project.version}</message>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>site</phase>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
-  
+
   <ciManagement>
     <system>Travis CI</system>
     <url>https://travis-ci.org/stefanberkner/doctest4j</url>
   </ciManagement>
-  
+
   <scm>
-    <developerConnection>git@github.com:stefanberkner/doctest4j.git</developerConnection>
+    <developerConnection>scm:git:git@github.com:stefanberkner/doctest4j.git</developerConnection>
     <url>https://github.com/stefanberkner/doctest4j</url>
   </scm>
 </project>
