@@ -44,8 +44,7 @@ public class GenerateTestDataMojo extends AbstractMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
     generatedResourcesDirectory.delete();
     Resource generatedResources = new Resource();
-    generatedResources.setDirectory(generatedResourcesDirectory.getAbsolutePath().substring(
-        project.getBasedir().getAbsolutePath().length()));
+    generatedResources.setDirectory(generatedResourcesDirectory.getAbsolutePath());
     project.addTestResource(generatedResources);
 
     List<File> javaFiles;
