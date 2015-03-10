@@ -6,7 +6,7 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
-  <url>http://stefanberkner.github.io/doctest4j</url>
+  <url>http://kitetrax.github.io/doctest4j</url>
   
   <modules>
     <module>doctest4j-maven-plugin</module>
@@ -37,11 +37,11 @@
 
   <ciManagement>
     <system>Travis CI</system>
-    <url>https://travis-ci.org/stefanberkner/doctest4j</url>
+    <url>https://travis-ci.org/kitetrax/doctest4j</url>
   </ciManagement>
 
   <scm>
-    <developerConnection>scm:git:git@github.com:stefanberkner/doctest4j.git</developerConnection>
-    <url>https://github.com/stefanberkner/doctest4j</url>
+    <developerConnection>scm:git:git@github.com:kitetrax/doctest4j.git</developerConnection>
+    <url>https://github.com/kitetrax/doctest4j</url>
   </scm>
 </project>
